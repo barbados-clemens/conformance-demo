@@ -70,19 +70,13 @@ class TargetProjectLocator {
    * @param filePath
    */
   findProjectFromImport(importExpr, filePath) {
-    if (filePath.includes('GoogleAnalytics')) {
-      console.log('finding project for import', { importExpr, filePath });
-    }
-
     if ((0, fileutils_1.isRelativePath)(importExpr)) {
       const resolvedModule = node_path_1.posix.join(
         (0, node_path_1.dirname)(filePath),
         importExpr
       );
-      console.log('isRelativePath', resolvedModule);
       return this.findProjectOfResolvedModule(resolvedModule);
     }
-    console.log('finding matching paths instead');
     // find project using tsconfig paths
     const results = this.findMatchingPaths(importExpr);
     if (results) {
@@ -134,7 +128,6 @@ class TargetProjectLocator {
     // output might not exist yet
     const localProject = this.findImportInWorkspaceProjects(importExpr);
     if (localProject) {
-      console.log('is local project from workspace project', localProject);
       return localProject;
     }
     // nothing found, cache for later
@@ -352,16 +345,13 @@ class TargetProjectLocator {
     ) {
       return undefined;
     }
-    console.log('resolved module', resolvedModule);
     const normalizedResolvedModule = resolvedModule.startsWith('./')
       ? resolvedModule.substring(2)
       : resolvedModule;
 
-    console.log('normalized module', normalizedResolvedModule);
     const importedProject = this.findMatchingProjectFiles(
       normalizedResolvedModule
     );
-    console.log('resolved imported project', importedProject);
     return importedProject ? importedProject.name : void 0;
   }
   getAbsolutePath(path) {
