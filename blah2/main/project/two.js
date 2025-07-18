@@ -1,3 +1,3 @@
-import a from '../../src/a';
-
+import { itsMe } from './';
 console.log(a);
+console.log(itsMe());
